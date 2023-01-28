@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ToDotNet.Data;
@@ -12,9 +8,9 @@ namespace ToDotNet.Pages.Todos
 {
     public class DetailsModel : PageModel
     {
-        private readonly ToDotNet.Data.ToDotNetContext _context;
+        private readonly ToDotNetContext _context;
 
-        public DetailsModel(ToDotNet.Data.ToDotNetContext context)
+        public DetailsModel(ToDotNetContext context)
         {
             _context = context;
         }

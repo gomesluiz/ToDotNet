@@ -55,9 +55,12 @@ namespace ToDotNet.Pages.Todos
                 Todo = todo;
                 _context.Todo.Remove(Todo);
                 await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index", new { uid = todo.UserId });
             }
 
-            return RedirectToPage("./Index");
+            return NotFound();
+
         }
     }
 }

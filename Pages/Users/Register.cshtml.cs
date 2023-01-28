@@ -25,21 +25,14 @@ namespace ToDotNet.Pages.Users
         }
 
         [BindProperty]
-        public User User { get; set; } = default!;
+        public new User User { get; set; } = default!;
         
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.User == null || User == null)
-            {
-                return Page();
-            }
-
             _context.User.Add(User);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }

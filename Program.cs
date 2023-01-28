@@ -24,6 +24,13 @@ namespace ToDotNet
                 app.UseHsts();
             }
 
+            // Ensure the database creation.
+            // using(var scope = app.Services.CreateScope()) 
+            // {
+            //    var services = scope.ServiceProvider;
+            //    var context = services.GetRequiredService<ToDotNetContext>();
+            // }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

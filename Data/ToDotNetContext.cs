@@ -12,6 +12,7 @@ namespace ToDotNet.Data
         public ToDotNetContext (DbContextOptions<ToDotNetContext> options)
             : base(options)
         {
+
         }
 
         public DbSet<ToDotNet.Models.User> User { get; set; } = default!;

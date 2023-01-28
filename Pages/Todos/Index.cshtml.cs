@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ToDotNet.Data;
@@ -12,22 +8,42 @@ namespace ToDotNet.Pages.Todos
 {
     public class IndexModel : PageModel
     {
-        private readonly ToDotNet.Data.ToDotNetContext _context;
+        private readonly ToDotNetContext _context;
 
-        public IndexModel(ToDotNet.Data.ToDotNetContext context)
+        public IndexModel(ToDotNetContext context)
         {
             _context = context;
         }
 
-        public IList<Todo> Todo { get;set; } = default!;
+        public IList<Todo> Todo { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        [BindProperty(SupportsGet = true)]
+        public string CategorySearchString { get; set; }
+
+
+        public async Task OnGetAsync(int? uid)
         {
             if (_context.Todo != null)
             {
-                Todo = await _context.Todo
-                .Include(t => t.User).ToListAsync();
+                if (CategorySearchString != null)
+                {
+                    Todo = await _context.Todo.FromSqlRaw(
+                        "SELECT * "     + 
+                        "  FROM Todo "  + 
+                        $" WHERE UserId = {uid} AND Category LIKE '%{CategorySearchString}%'"
+                        ).ToListAsync();
+                }
+                else
+                {
+                    Todo = await _context
+                        .Todo
+                        .Where(m => m.UserId == uid)
+                        .Include(m => m.User)
+                        .ToListAsync();
+                }
             }
+
+            ViewData["UserId"] = uid;
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ToDotNet.Data;
 using ToDotNet.Models;
 
@@ -25,21 +27,22 @@ namespace ToDotNet.Pages.Users
         }
 
         [BindProperty]
-        public User User { get; set; } = default!;
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public new User User { get; set; } = default!;
+     
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.User == null || User == null)
+
+            var user = await _context.User.FirstOrDefaultAsync(
+                m => m.Email == User.Email &&
+                m.Password == User.Password
+            );
+
+            if (user == null)
             {
-                return Page();
+                return RedirectToPage("/Index");
             }
 
-            _context.User.Add(User);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Todos/Index", new { uid = user.Id });
         }
     }
 }

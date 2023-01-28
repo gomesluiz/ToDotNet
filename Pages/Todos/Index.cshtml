@@ -5,11 +5,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Todo(s)</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form>
+        Category: 
+        <input type="text" asp-for="CategorySearchString" />
+        <input type="hidden" name="uid" value="@ViewData["UserId"]" />
+        <button type="submit" class="btn btn-success">Search</button>
+        <a class="btn btn-primary" asp-page="Create" asp-route-uid="@ViewData["UserId"]">Create New</a>
+</form>
+
+
+<h3>Showing results for: @Html.Raw(Model.CategorySearchString)</h3>
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +38,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Todo[0].IsCompleted)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Todo[0].User)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,25 +45,22 @@
 @foreach (var item in Model.Todo) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.Raw(item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.Raw(item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Created)
+                @Html.Raw(item.Created)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Due)
+                @Html.Raw(item.Due)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @Html.Raw(item.Category)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsCompleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.Raw(item.IsCompleted)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
