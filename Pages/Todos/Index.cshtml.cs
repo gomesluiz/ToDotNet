@@ -33,17 +33,9 @@ namespace ToDotNet.Pages.Todos
                     // Examples:
                     // ' OR 1 = 1 --
                     // ' UNION SELECT object_id , name  , name, GETDATE(), GETDATE(), name, 'True', 0 FROM sys.tables --
-                    //Todo = await _context.Todo.FromSqlRaw(
-                    //  $"SELECT * FROM Todo WHERE UserId = {uid} AND Category LIKE '%{CategorySearchString}%'")
-                    //  .ToListAsync();
-
-                    // Fix: SQL Injection vulnerability
-                    var todos = from todo
-                                  in _context.Todo
-                                where todo.UserId == uid && EF.Functions.Like(todo.Category, $"%{CategorySearchString}%")
-                                select todo;
-
-                    Todo = await todos.ToListAsync();
+                    Todo = await _context.Todo.FromSqlRaw(
+                      $"SELECT * FROM Todo WHERE UserId = {uid} AND Category LIKE '%{CategorySearchString}%'")
+                      .ToListAsync();
                 }
                 else
                 {
