@@ -10,7 +10,9 @@ C:\> git clone git@github.com:gomesluiz/ToDotNet.git
 
 ```bash
 C:\> cd ToDotNet
+C:\> dotnet tool install --global dotnet-ef
 C:\ToDotNet> dotnet ef migrations add InitialMigration
+dotnet add package HtmlSanitizer --version 8.0.645
 ```
 
 ```bash
