@@ -1,6 +1,15 @@
 # ToDotNet
 
-A ToDo application written in the .Net Core platform using the language C#.
+A to-do application written in the C# programming language. It was built for software security teaching purposes, 
+therefore it is deliberately vulnerable to:
+
+* Sql-injection
+* Cross-site scripting 
+
+The vulnerabilities fixing was implemented on the following branches:
+
+* fix/sql-injection
+* fix/xss 
 
 ## Installation
 
@@ -10,9 +19,9 @@ C:\> git clone git@github.com:gomesluiz/ToDotNet.git
 
 ```bash
 C:\> cd ToDotNet
-C:\> dotnet tool install --global dotnet-ef
+C:\ToDotNet> dotnet tool install --global dotnet-ef
 C:\ToDotNet> dotnet ef migrations add InitialMigration
-dotnet add package HtmlSanitizer --version 8.0.645
+C:\ToDotNet>dotnet add package HtmlSanitizer --version 8.0.645
 ```
 
 ```bash
