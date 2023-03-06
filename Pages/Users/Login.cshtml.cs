@@ -42,6 +42,14 @@ namespace ToDotNet.Pages.Users
                 return RedirectToPage("/Index");
             }
 
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddHours(2),
+            };
+
+            Response.Cookies.Append("UserName", User.Email, cookieOptions);
+
+
             return RedirectToPage("/Todos/Index", new { uid = user.Id });
         }
     }

